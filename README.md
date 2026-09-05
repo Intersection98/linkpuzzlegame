@@ -1,6 +1,8 @@
 # 连线解谜
 12种共100道连线类解谜游戏。
 
+在线游玩：<https://intersection98.github.io/linkpuzzlegame/>
+
 共 12 章， 100 关：
 
 - 第一章：Numberlink 数连（1–10）
