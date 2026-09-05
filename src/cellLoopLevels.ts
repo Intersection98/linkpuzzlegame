@@ -583,7 +583,7 @@ const BALANCE_LOOP_LEVEL_SEEDS: BalanceLoopLevelSeed[] = [
       "cv:0:1 ch:0:1 cv:0:2 ch:1:2 cv:1:3 ch:2:2 cv:2:2 ch:3:1 cv:2:1 ch:2:0 cv:1:0 ch:1:0"
   },
   {
-    title: "白圈折臂",
+    title: "白猫折臂",
     difficulty: "简单",
     size: 5,
     clues: [
@@ -599,7 +599,7 @@ const BALANCE_LOOP_LEVEL_SEEDS: BalanceLoopLevelSeed[] = [
       "cv:1:1 ch:1:1 cv:1:2 ch:2:2 cv:1:3 ch:1:3 cv:1:4 cv:2:4 ch:3:3 ch:3:2 cv:3:2 ch:4:1 cv:3:1 ch:3:0 cv:2:0 ch:2:0"
   },
   {
-    title: "黑圈失衡",
+    title: "黑猫失衡",
     difficulty: "简单",
     size: 5,
     clues: [
@@ -749,7 +749,7 @@ type ShingokiLevelSeed = {
 
 const SHINGOKI_LEVEL_SEEDS: ShingokiLevelSeed[] = [
   {
-    title: "白灯入门",
+    title: "白猫入门",
     difficulty: "入门",
     rows: 5,
     cols: 5,
@@ -763,7 +763,7 @@ const SHINGOKI_LEVEL_SEEDS: ShingokiLevelSeed[] = [
       "ch:1:1 cv:0:2 ch:0:2 ch:0:3 cv:0:4 ch:1:3 cv:1:3 cv:2:3 cv:3:3 ch:4:2 cv:3:2 cv:2:2 ch:2:1 ch:2:0 cv:1:0 ch:1:0"
   },
   {
-    title: "黑灯拆分",
+    title: "黑猫拆分",
     difficulty: "入门",
     rows: 5,
     cols: 5,
@@ -811,7 +811,7 @@ const SHINGOKI_LEVEL_SEEDS: ShingokiLevelSeed[] = [
       "cv:1:2 cv:0:2 ch:0:2 cv:0:3 cv:1:3 ch:2:3 cv:1:4 cv:0:4 ch:0:4 cv:0:5 cv:1:5 cv:2:5 ch:3:4 cv:3:4 ch:4:4 cv:4:5 ch:5:4 ch:5:3 cv:4:3 cv:3:3 ch:3:2 ch:3:1 ch:3:0 cv:2:0 ch:2:0 ch:2:1"
   },
   {
-    title: "灰灯反推",
+    title: "灰猫反推",
     difficulty: "困难",
     rows: 7,
     cols: 7,
@@ -829,7 +829,7 @@ const SHINGOKI_LEVEL_SEEDS: ShingokiLevelSeed[] = [
       "cv:3:1 ch:3:0 cv:2:0 cv:1:0 cv:0:0 ch:0:0 cv:0:1 cv:1:1 ch:2:1 ch:2:2 cv:2:3 ch:3:2 cv:3:2 ch:4:2 cv:4:3 ch:5:3 ch:5:4 cv:4:5 ch:4:4 cv:3:4 cv:2:4 ch:2:4 cv:2:5 ch:3:5 cv:3:6 cv:4:6 cv:5:6 ch:6:5 ch:6:4 ch:6:3 ch:6:2 cv:5:2 ch:5:1 cv:5:1 ch:6:0 cv:5:0 cv:4:0 ch:4:0"
   },
   {
-    title: "稀灯长链",
+    title: "稀疏长链",
     difficulty: "专家",
     rows: 7,
     cols: 7,

@@ -232,20 +232,20 @@ export const TUTORIAL_STEPS: Record<PuzzleMode, TutorialStep[]> = {
   ],
   masyu: [
     {
-      title: "穿过白珍珠",
-      instruction: "沿格心画线，让路径从一枚白珍珠中直线穿过。",
+      title: "穿过白猫",
+      instruction: "沿格心画线，让路径从一只白猫中直线穿过。",
       target: "white-pearl",
       requirement: { type: "increase", metric: "correctLines" }
     },
     {
       title: "紧邻处必须转弯",
-      instruction: "继续延伸；白珍珠前后相邻格中至少有一处要转弯。",
+      instruction: "继续延伸；白猫前后相邻格中至少有一处要转弯。",
       target: "white-pearl",
       requirement: { type: "increase", metric: "matchedClues" }
     },
     {
-      title: "串起全部珍珠",
-      instruction: "让环经过所有珍珠，并且只形成一个完整回路。",
+      title: "串起全部猫咪",
+      instruction: "让环经过所有猫咪，并且只形成一个完整回路。",
       target: "board",
       requirement: { type: "solve" }
     }
@@ -272,20 +272,20 @@ export const TUTORIAL_STEPS: Record<PuzzleMode, TutorialStep[]> = {
   ],
   "balance-loop": [
     {
-      title: "画出圆圈两侧",
-      instruction: "沿格心画线，让路径经过一枚白圈。",
+      title: "画出白猫两侧",
+      instruction: "沿格心画线，让路径经过一只白猫。",
       target: "balance",
       requirement: { type: "increase", metric: "correctLines" }
     },
     {
       title: "保持两臂平衡",
-      instruction: "白圈到两侧首次转弯的直线长度必须相等。",
+      instruction: "白猫到两侧首次转弯的直线长度必须相等。",
       target: "balance",
       requirement: { type: "increase", metric: "matchedClues" }
     },
     {
       title: "平衡整条回路",
-      instruction: "满足全部圆圈条件，并把所有线段闭合成一个环。",
+      instruction: "满足全部猫咪条件，并把所有线段闭合成一个环。",
       target: "board",
       requirement: { type: "solve" }
     }
@@ -312,20 +312,20 @@ export const TUTORIAL_STEPS: Record<PuzzleMode, TutorialStep[]> = {
   ],
   shingoki: [
     {
-      title: "白灯必须直行",
-      instruction: "沿格心画线，让路径从一枚白色交通灯中直穿。",
+      title: "白猫必须直行",
+      instruction: "沿格心画线，让路径从一只白猫中直穿。",
       target: "traffic",
       requirement: { type: "increase", metric: "correctLines" }
     },
     {
       title: "数字是两臂之和",
-      instruction: "灯两侧到首次转弯的线段数量之和必须等于灯内数字。",
+      instruction: "猫咪两侧到首次转弯的线段数量之和必须等于额头数字。",
       target: "traffic",
       requirement: { type: "increase", metric: "matchedClues" }
     },
     {
       title: "形状与长度同时成立",
-      instruction: "满足所有交通灯，再将路径闭合成一个完整单环。",
+      instruction: "满足所有猫咪提示，再将路径闭合成一个完整单环。",
       target: "board",
       requirement: { type: "solve" }
     }
@@ -421,20 +421,20 @@ const LEVEL_TUTORIAL_STEPS: Partial<Record<number, TutorialStep[]>> = {
   ],
   62: [
     {
-      title: "黑珠处必须转弯",
-      instruction: "从黑珍珠画出一个直角，路径不能直穿黑珠。",
+      title: "黑猫处必须转弯",
+      instruction: "从黑猫画出一个直角，路径不能直穿黑猫。",
       target: "black-pearl",
       requirement: { type: "increase", metric: "correctLines" }
     },
     {
       title: "转弯后两侧直行",
-      instruction: "黑珠转弯后的前后相邻格都必须继续直行一格。",
+      instruction: "黑猫转弯后的前后相邻格都必须继续直行一格。",
       target: "black-pearl",
       requirement: { type: "increase", metric: "matchedClues" }
     },
     {
-      title: "串起全部黑珠",
-      instruction: "让环经过所有黑珠，并且只形成一个完整回路。",
+      title: "串起全部黑猫",
+      instruction: "让环经过所有黑猫，并且只形成一个完整回路。",
       target: "board",
       requirement: { type: "solve" }
     }
@@ -461,20 +461,20 @@ const LEVEL_TUTORIAL_STEPS: Partial<Record<number, TutorialStep[]>> = {
   ],
   78: [
     {
-      title: "圆圈处也可以转弯",
-      instruction: "让路径经过白圈；圆圈处既可以直行，也可以转弯。",
+      title: "白猫处也可以转弯",
+      instruction: "让路径经过白猫；白猫处既可以直行，也可以转弯。",
       target: "balance",
       requirement: { type: "increase", metric: "correctLines" }
     },
     {
-      title: "从圆圈量两条直臂",
+      title: "从白猫量两条直臂",
       instruction: "无论是否转弯，两侧到首次转弯的距离都必须相等。",
       target: "balance",
       requirement: { type: "increase", metric: "matchedClues" }
     },
     {
       title: "保持整条回路平衡",
-      instruction: "满足全部白圈条件，并将所有线段闭合成一个环。",
+      instruction: "满足全部白猫条件，并将所有线段闭合成一个环。",
       target: "board",
       requirement: { type: "solve" }
     }
@@ -501,20 +501,20 @@ const LEVEL_TUTORIAL_STEPS: Partial<Record<number, TutorialStep[]>> = {
   ],
   94: [
     {
-      title: "黑灯必须转弯",
-      instruction: "从黑色交通灯画出一个直角，路径不能直穿黑灯。",
+      title: "黑猫必须转弯",
+      instruction: "从黑猫画出一个直角，路径不能直穿黑猫。",
       target: "black-light",
       requirement: { type: "increase", metric: "correctLines" }
     },
     {
       title: "两条直臂长度求和",
-      instruction: "从黑灯沿两个方向量到首次转弯，总和必须等于灯内数字。",
+      instruction: "从黑猫沿两个方向量到首次转弯，总和必须等于额头数字。",
       target: "black-light",
       requirement: { type: "increase", metric: "matchedClues" }
     },
     {
-      title: "转弯与长度同时成立",
-      instruction: "满足全部黑灯，再把所有线段连接成一个完整单环。",
+      title: "连接全部猫咪",
+      instruction: "满足全部黑猫，再把所有线段连接成一个完整单环。",
       target: "board",
       requirement: { type: "solve" }
     }

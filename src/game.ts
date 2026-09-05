@@ -56,43 +56,43 @@ export const FLOW_COLORS: FlowColor[] = [
   {
     id: "coral",
     name: "珊瑚",
-    value: "#df5f50",
-    soft: "#f6d7d1",
+    value: "#f06f72",
+    soft: "#ffd9d9",
     shape: "circle"
   },
   {
     id: "teal",
     name: "青绿",
-    value: "#147d76",
-    soft: "#cde6e1",
+    value: "#25ad9d",
+    soft: "#d1f1ea",
     shape: "diamond"
   },
   {
     id: "gold",
     name: "金黄",
-    value: "#c58d1b",
-    soft: "#f2dfae",
+    value: "#e4aa2e",
+    soft: "#ffedbd",
     shape: "square"
   },
   {
     id: "blue",
     name: "湖蓝",
-    value: "#4672b8",
-    soft: "#d5e0f1",
+    value: "#5d8fd5",
+    soft: "#dceaff",
     shape: "triangle"
   },
   {
     id: "berry",
     name: "莓红",
-    value: "#a64e77",
-    soft: "#ead2de",
+    value: "#bd608c",
+    soft: "#f3dbea",
     shape: "cross"
   },
   {
     id: "leaf",
     name: "叶绿",
-    value: "#548a4d",
-    soft: "#d9e7d4",
+    value: "#6aa560",
+    soft: "#dcefd8",
     shape: "hex"
   }
 ];

@@ -1,5 +1,6 @@
-import { ArrowRight, Check, X } from "lucide-react";
+import { ArrowRight, Sparkles, X } from "lucide-react";
 import { useState } from "react";
+import CatMascot from "./CatMascot";
 
 type WinOverlayProps = {
   chapterComplete: boolean;
@@ -37,8 +38,10 @@ export default function WinOverlay({
         >
           <X size={18} />
         </button>
-        <span className="win-check">
-          <Check size={36} strokeWidth={3} />
+        <span className="win-check" aria-hidden="true">
+          <CatMascot className="win-cat" />
+          <Sparkles className="win-spark win-spark-left" />
+          <Sparkles className="win-spark win-spark-right" />
         </span>
         <div>
           <strong>{chapterComplete ? "章节完成" : "关卡完成"}</strong>

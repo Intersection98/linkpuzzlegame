@@ -87,6 +87,38 @@ function clueClass(
   return `loop-clue ${clue.kind} is-${getCellLoopClueState(level, clue, marks)}`;
 }
 
+function LoopCatClue({ label }: { label?: number }) {
+  return (
+    <g className="loop-cat-clue">
+      <path
+        className="loop-cat-head"
+        d="M-.26-.06-.28-.28q0-.06.05-.03l.13.1q.1-.05.2 0l.13-.1q.05-.03.05.03l-.02.22q.08.08.05.2Q.25.29 0 .3q-.25-.01-.29-.16-.03-.12.05-.2Z"
+      />
+      <path className="loop-cat-ear" d="m-.23-.25.03.13.09-.08Zm.46 0-.03.13-.09-.08Z" />
+      {label !== undefined && (
+        <text
+          className="loop-cat-number"
+          y="-.12"
+          fontSize={label > 9 ? 0.16 : 0.2}
+        >
+          {label}
+        </text>
+      )}
+      <circle className="loop-cat-eye" cx="-.1" cy=".035" r=".027" />
+      <circle className="loop-cat-eye" cx=".1" cy=".035" r=".027" />
+      <path className="loop-cat-nose" d="M0 .105-.035.08h.07Z" />
+      <path
+        className="loop-cat-mouth"
+        d="M0 .105v.035m0 0q-.045.05-.08.005m.08-.005q.045.05.08.005"
+      />
+      <path
+        className="loop-cat-whisker"
+        d="M-.14.115-.29.08M-.14.17-.3.19M.14.115.29.08M.14.17.3.19"
+      />
+    </g>
+  );
+}
+
 export default function CellLoopGame({
   level,
   initialMarks,
@@ -568,17 +600,26 @@ export default function CellLoopGame({
                   : { x: clue.col + 0.5, y: clue.row + 0.5 };
                 const isPearl = ["white", "black", "gray"].includes(clue.kind);
                 const hasDisc = isPearl || clue.kind === "length";
+                const isCatClue =
+                  (level.mode === "masyu" ||
+                    level.mode === "balance-loop" ||
+                    level.mode === "shingoki") &&
+                  ["white", "black", "gray"].includes(clue.kind);
                 return (
                   <g
                     className={state}
                     key={`${clue.kind}:${clue.row}:${clue.col}:${index}`}
                     transform={`translate(${point.x} ${point.y})`}
                   >
-                    {hasDisc && <circle className="loop-clue-disc" r=".25" />}
+                    {isCatClue ? (
+                      <LoopCatClue label={clue.value} />
+                    ) : (
+                      hasDisc && <circle className="loop-clue-disc" r=".25" />
+                    )}
                     {(clue.kind === "mid-cell" || clue.kind === "mid-edge") && (
                       <circle className="midpoint-clue" r=".09" />
                     )}
-                    {clue.value !== undefined && (
+                    {clue.value !== undefined && !isCatClue && (
                       <text className="loop-clue-number" y=".01">
                         {clue.value}
                       </text>

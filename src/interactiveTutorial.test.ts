@@ -86,8 +86,8 @@ describe("interactive chapter tutorials", () => {
       1, 11, 19, 20, 29, 30, 37, 38, 45, 53, 54, 61, 62, 69, 70, 77, 78,
       85, 86, 93, 94
     ]);
-    expect(getTutorialSteps("masyu", 62)[0].title).toBe("黑珠处必须转弯");
-    expect(getTutorialSteps("shingoki", 94)[0].title).toBe("黑灯必须转弯");
+    expect(getTutorialSteps("masyu", 62)[0].title).toBe("黑猫处必须转弯");
+    expect(getTutorialSteps("shingoki", 94)[0].title).toBe("黑猫必须转弯");
     expect(getTutorialSteps("hashi", 54)[1].title).toBe("升级为双桥");
   });
 

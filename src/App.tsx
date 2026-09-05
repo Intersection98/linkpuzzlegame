@@ -29,7 +29,6 @@ import {
   pointKey,
   samePoint,
   validateBoard,
-  type EndpointShape,
   type NumberlinkLevel,
   type PathMap,
   type Point
@@ -71,6 +70,7 @@ import InteractiveTutorial, {
 } from "./InteractiveTutorial";
 import RulesModal from "./RulesModal";
 import { useCompletionSound } from "./useCompletionSound";
+import CatMascot from "./CatMascot";
 
 const SAVE_KEY = "line-puzzle-numberlink-v1";
 const LEVEL_DATA_REVISION = 18;
@@ -271,42 +271,53 @@ function pathsMatch(a: Point[], b: Point[]): boolean {
   return forward || backward;
 }
 
-function EndpointGlyph({
-  shape,
-  color
-}: {
-  shape: EndpointShape;
-  color: string;
-}) {
-  const common = {
-    fill: color,
-    stroke: "#ffffff",
-    strokeWidth: 0.055
+function endpointFurColor(colorId: string, fallback: string): string {
+  const furColors: Record<string, string> = {
+    coral: "#f98783",
+    teal: "#55cdb9",
+    gold: "#f7ca51",
+    blue: "#78a7e4",
+    berry: "#d77aa5",
+    leaf: "#8bc57b"
   };
+  return furColors[colorId] ?? fallback;
+}
 
-  if (shape === "diamond") {
-    return <path d="M .5 .12 L .88 .5 L .5 .88 L .12 .5 Z" {...common} />;
-  }
-  if (shape === "square") {
-    return <rect x=".17" y=".17" width=".66" height=".66" rx=".08" {...common} />;
-  }
-  if (shape === "triangle") {
-    return <path d="M .5 .12 L .88 .82 L .12 .82 Z" {...common} />;
-  }
-  if (shape === "cross") {
-    return (
+function EndpointGlyph({
+  colorId,
+  color,
+  label
+}: {
+  colorId: string;
+  color: string;
+  label?: number;
+}) {
+  return (
+    <g className="cat-endpoint-glyph">
       <path
-        d="M .38 .12 H .62 V .38 H .88 V .62 H .62 V .88 H .38 V .62 H .12 V .38 H .38 Z"
-        {...common}
+        className="cat-endpoint-head"
+        d="M .18 .43 L .14 .16 Q .14 .1 .2 .13 L .36 .23 Q .5 .17 .64 .23 L .8 .13 Q .86 .1 .86 .16 L .82 .43 Q .9 .51 .87 .67 Q .83 .87 .5 .89 Q .17 .87 .13 .67 Q .1 .51 .18 .43 Z"
+        fill={endpointFurColor(colorId, color)}
       />
-    );
-  }
-  if (shape === "hex") {
-    return (
-      <path d="M .28 .14 H .72 L .9 .5 L .72 .86 H .28 L .1 .5 Z" {...common} />
-    );
-  }
-  return <circle cx=".5" cy=".5" r=".36" {...common} />;
+      <path className="cat-endpoint-ear" d="M .2 .2 L .23 .36 L .34 .27 Z" />
+      <path className="cat-endpoint-ear" d="M .8 .2 L .77 .36 L .66 .27 Z" />
+      {label !== undefined && (
+        <text
+          className="endpoint-number"
+          x=".5"
+          y=".33"
+          fontSize={label > 9 ? 0.17 : 0.21}
+        >
+          {label}
+        </text>
+      )}
+      <ellipse className="cat-endpoint-eye" cx=".34" cy=".55" rx=".045" ry=".06" />
+      <ellipse className="cat-endpoint-eye" cx=".66" cy=".55" rx=".045" ry=".06" />
+      <path className="cat-endpoint-nose" d="M .5 .63 L .46 .6 H .54 Z" />
+      <path className="cat-endpoint-mouth" d="M .5 .63 V .66 M .5 .66 Q .45 .71 .41 .67 M .5 .66 Q .55 .71 .59 .67" />
+      <path className="cat-endpoint-whisker" d="M .31 .64 L .15 .61 M .31 .69 L .14 .72 M .69 .64 L .85 .61 M .69 .69 L .86 .72" />
+    </g>
+  );
 }
 
 function endpointTransform(point: Point): string {
@@ -373,7 +384,9 @@ function NumberlinkBoard({
         {cells.map((cell) => (
           <rect
             key={pointKey(cell)}
-            className="board-cell"
+            className={`board-cell ${
+              (cell.row + cell.col) % 2 === 0 ? "is-tinted" : ""
+            }`}
             x={cell.col}
             y={cell.row}
             width="1"
@@ -453,27 +466,13 @@ function NumberlinkBoard({
                 }`}
               >
                 {level.mode === "number-end" ? (
-                  <>
-                    <circle
-                      className="number-endpoint"
-                      cx=".5"
-                      cy=".5"
-                      r=".36"
-                      fill={color.value}
-                    />
-                    <text
-                      className="endpoint-number"
-                      x=".5"
-                      y=".5"
-                      fontSize={
-                        (level.targetLengths?.[color.id] ?? 0) > 9 ? 0.28 : 0.34
-                      }
-                    >
-                      {level.targetLengths?.[color.id]}
-                    </text>
-                  </>
+                  <EndpointGlyph
+                    colorId={color.id}
+                    color={color.value}
+                    label={level.targetLengths?.[color.id]}
+                  />
                 ) : (
-                  <EndpointGlyph shape={color.shape} color={color.value} />
+                  <EndpointGlyph colorId={color.id} color={color.value} />
                 )}
               </g>
             </g>
@@ -588,7 +587,7 @@ export default function App() {
   useCompletionSound(level.id, isNumberPathLevel(level) && won);
 
   useEffect(() => {
-    document.title = `${currentChapter.title} · 连线解谜`;
+    document.title = `${currentChapter.title} · 猫咪连线`;
   }, [currentChapter.title]);
 
   const persist = useCallback(
@@ -1126,12 +1125,10 @@ export default function App() {
       <header className="topbar">
         <div className="brand-lockup">
           <span className="brand-mark" aria-hidden="true">
-            <i />
-            <i />
-            <i />
+            <CatMascot />
           </span>
           <div>
-            <p>连线解谜</p>
+            <p>猫咪连线</p>
             <h1>{currentChapter.title}</h1>
           </div>
         </div>
@@ -1448,7 +1445,7 @@ export default function App() {
           >
             <header>
               <div>
-                <p>连线解谜</p>
+                <p>猫咪连线</p>
                 <h2 id="level-picker-title">选择关卡</h2>
               </div>
               <button

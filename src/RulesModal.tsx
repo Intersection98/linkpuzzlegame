@@ -1,5 +1,6 @@
 import { Maximize, Play, Puzzle, Ruler, X } from "lucide-react";
 import type { PuzzleMode } from "./game";
+import CatMascot from "./CatMascot";
 
 const MODE_RULES: Record<
   PuzzleMode,
@@ -72,8 +73,8 @@ const MODE_RULES: Record<
     title: "珍珠",
     items: [
       "沿格心画出一个不分叉、不交叉的单环。",
-      "白珠处必须直行，并在相邻至少一格转弯。",
-      "黑珠处必须转弯，且转弯后的两侧各直行一格。",
+      "白猫处必须直行，并在相邻至少一格转弯。",
+      "黑猫处必须转弯，且转弯后的两侧各直行一格。",
       "提示匹配变绿，形状冲突时变红。"
     ]
   },
@@ -90,8 +91,8 @@ const MODE_RULES: Record<
     title: "平衡环",
     items: [
       "沿格心画出一个完整单环。",
-      "白圈两侧直线臂等长，黑圈两侧直线臂不等长。",
-      "圈内数字表示两侧直线臂长度之和。",
+      "白猫两侧直线臂等长，黑猫两侧直线臂不等长。",
+      "猫咪额头数字表示两侧直线臂长度之和。",
       "提示匹配变绿，形状或长度冲突时变红。"
     ]
   },
@@ -108,8 +109,8 @@ const MODE_RULES: Record<
     title: "交通灯",
     items: [
       "沿格心画出一个完整单环。",
-      "白灯必须直行，黑灯必须转弯，灰灯不限制形状。",
-      "灯内数字表示两侧直线臂长度之和。",
+      "白猫必须直行，黑猫必须转弯，灰猫不限制形状。",
+      "猫咪额头的数字表示两侧直线臂长度之和。",
       "同时满足颜色、长度和单环约束才可过关。"
     ]
   }
@@ -144,6 +145,9 @@ export default function RulesModal({
         aria-modal="true"
         aria-labelledby="rules-title"
       >
+        <span className="rules-cat" aria-hidden="true">
+          <CatMascot />
+        </span>
         <p className="rules-kicker">{chapterLabel}</p>
         <h2 id="rules-title">{rules.title}</h2>
         <ul className="rules-list">
