@@ -150,6 +150,17 @@ function shouldStartTutorial(
   );
 }
 
+function isChapterOpeningLevel(level: NumberlinkLevel): boolean {
+  return (
+    CHAPTERS.find((chapter) => chapter.id === level.chapter)?.levels[0]?.id ===
+    level.id
+  );
+}
+
+function isLevelUnlocked(level: NumberlinkLevel, unlocked: number): boolean {
+  return level.id <= unlocked || isChapterOpeningLevel(level);
+}
+
 function loadProgress(): SavedProgress {
   try {
     const value = localStorage.getItem(SAVE_KEY);
@@ -550,14 +561,22 @@ export default function App() {
   const [tutorialRun, setTutorialRun] = useState(0);
   const [gameInstance, setGameInstance] = useState(0);
   const [forceFreshState, setForceFreshState] = useState(false);
-  const [rulesOpen, setRulesOpen] = useState(() =>
-    shouldStartTutorial(
+  const [rulesOpen, setRulesOpen] = useState(() => {
+    const tutorialPending = shouldStartTutorial(
       level,
       initialSave.solved,
       initialSave.tutorialLevelsSeen ?? []
-    )
-  );
-  const [tutorialActive, setTutorialActive] = useState(false);
+    );
+    return tutorialPending && isChapterOpeningLevel(level);
+  });
+  const [tutorialActive, setTutorialActive] = useState(() => {
+    const tutorialPending = shouldStartTutorial(
+      level,
+      initialSave.solved,
+      initialSave.tutorialLevelsSeen ?? []
+    );
+    return tutorialPending && !isChapterOpeningLevel(level);
+  });
 
   const currentChapter = CHAPTERS.find((chapter) => chapter.id === level.chapter)!;
   const chapterLevels = currentChapter.levels;
@@ -947,9 +966,9 @@ export default function App() {
   }, [debugMode, level.id, tutorialLevelsSeen]);
 
   const startTutorial = useCallback(() => {
+    setRulesOpen(false);
     if (!hasInteractiveTutorial(level.id)) return;
 
-    setRulesOpen(false);
     if (tutorialProgress.solved) {
       setForceFreshState(true);
       setGameInstance((current) => current + 1);
@@ -968,21 +987,18 @@ export default function App() {
   }, [level, tutorialProgress.solved]);
 
   const openRules = useCallback(() => {
-    if (!hasInteractiveTutorial(level.id)) return;
     setTutorialActive(false);
     setRulesOpen(true);
-  }, [level]);
+  }, []);
 
   const selectLevel = useCallback(
     (nextIndex: number) => {
-      if (
-        nextIndex < 0 ||
-        nextIndex >= ALL_LEVELS.length ||
-        (!debugMode && nextIndex + 1 > unlocked)
-      ) {
+      if (nextIndex < 0 || nextIndex >= ALL_LEVELS.length) {
         return;
       }
       const nextLevel = ALL_LEVELS[nextIndex];
+      if (!debugMode && !isLevelUnlocked(nextLevel, unlocked)) return;
+
       const saved = loadProgress();
       const nextPaths = clonePaths(
         saved.paths[nextLevel.id] ?? emptyPaths(nextLevel)
@@ -1006,10 +1022,15 @@ export default function App() {
       setLevelPickerOpen(false);
       setPickerChapter(nextLevel.chapter);
       setTutorialRun((current) => current + 1);
-      setTutorialActive(false);
-      setRulesOpen(
-        shouldStartTutorial(nextLevel, solvedLevels, tutorialLevelsSeen)
+      const tutorialPending = shouldStartTutorial(
+        nextLevel,
+        solvedLevels,
+        tutorialLevelsSeen
       );
+      setTutorialActive(
+        tutorialPending && !isChapterOpeningLevel(nextLevel)
+      );
+      setRulesOpen(tutorialPending && isChapterOpeningLevel(nextLevel));
       if (debugMode) {
         const url = new URL(window.location.href);
         url.searchParams.set("debug", "1");
@@ -1135,20 +1156,18 @@ export default function App() {
 
         <div className="topbar-actions">
           {debugMode && <span className="debug-badge">DEBUG</span>}
-          {hasInteractiveTutorial(level.id) && (
-            <button
-              className={`icon-button tutorial-button ${
-                tutorialActive ? "is-active" : ""
-              }`}
-              type="button"
-              title="规则教学"
-              aria-label="规则教学"
-              aria-pressed={rulesOpen || tutorialActive}
-              onClick={openRules}
-            >
-              <BookOpenCheck size={20} strokeWidth={1.8} />
-            </button>
-          )}
+          <button
+            className={`icon-button tutorial-button ${
+              tutorialActive ? "is-active" : ""
+            }`}
+            type="button"
+            title="查看规则"
+            aria-label="查看规则"
+            aria-pressed={rulesOpen || tutorialActive}
+            onClick={openRules}
+          >
+            <BookOpenCheck size={20} strokeWidth={1.8} />
+          </button>
           <button
             className="icon-button level-button"
             type="button"
@@ -1176,7 +1195,11 @@ export default function App() {
               type="button"
               title="上一关"
               aria-label="上一关"
-              disabled={levelIndex === 0}
+              disabled={
+                levelIndex === 0 ||
+                (!debugMode &&
+                  !isLevelUnlocked(ALL_LEVELS[levelIndex - 1], unlocked))
+              }
               onClick={() => selectLevel(levelIndex - 1)}
             >
               <ArrowLeft size={20} />
@@ -1194,7 +1217,8 @@ export default function App() {
               aria-label="下一关"
               disabled={
                 levelIndex >= ALL_LEVELS.length - 1 ||
-                (!debugMode && levelIndex + 1 >= unlocked)
+                (!debugMode &&
+                  !isLevelUnlocked(ALL_LEVELS[levelIndex + 1], unlocked))
               }
               onClick={() => selectLevel(levelIndex + 1)}
             >
@@ -1216,7 +1240,7 @@ export default function App() {
                 className={`${item.id === level.id ? "is-current" : ""} ${
                   solvedLevels.includes(item.id) ? "is-solved" : ""
                 }`}
-                disabled={!debugMode && item.id > unlocked}
+                disabled={!debugMode && !isLevelUnlocked(item, unlocked)}
                 aria-label={`第 ${item.id} 关`}
                 onClick={() => selectLevel(item.id - 1)}
               >
@@ -1486,7 +1510,8 @@ export default function App() {
             </div>
             <div className="level-grid">
               {selectedChapter.levels.map((item) => {
-                const isLocked = !debugMode && item.id > unlocked;
+                const isLocked =
+                  !debugMode && !isLevelUnlocked(item, unlocked);
                 const isSolved = solvedLevels.includes(item.id);
                 return (
                   <button

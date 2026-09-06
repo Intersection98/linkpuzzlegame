@@ -13,6 +13,7 @@ const TUTORIAL_LEVELS = new Set([
   1, 11, 19, 20, 29, 30, 37, 38, 45, 53, 54, 61, 62, 69, 70, 77, 78, 85,
   86, 93, 94
 ]);
+const RULE_LEVELS = new Set([1, 11, 19, 29, 37, 45, 53, 61, 69, 77, 85, 93]);
 const VIEWPORTS = [
   { name: "mobile", width: 390, height: 844, isMobile: true },
   { name: "desktop", width: 1440, height: 1000, isMobile: false }
@@ -50,7 +51,7 @@ for (const viewport of VIEWPORTS) {
     const rules = page.locator(".rules-modal");
     const rulesVisible = await rules.isVisible();
     let ruleTitle = null;
-    if (TUTORIAL_LEVELS.has(level)) {
+    if (RULE_LEVELS.has(level)) {
       if (!rulesVisible) {
         failures.push(`${viewport.name} level ${level}: rules modal missing`);
       } else {
